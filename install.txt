@@ -1,0 +1,5 @@
+1. install nodejs
+2. no need, skip it, since you already have it there!!! --- sudo npm install -g express
+3. sudo npm install -g nodemon
+4. sudo ln -s /usr/bin/nodejs /usr/bin/node
+5. sudo apt-get install couchdb -y

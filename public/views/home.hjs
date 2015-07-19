@@ -1,0 +1,13 @@
+will display here
+
+{{#result.group}}
+    <ul>
+        <li>{{groupName}}
+            <ul>
+                {{#drives}}
+                    <li>{{value.title}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
+                {{/drives}}
+            </ul>
+        </li>
+    </ul>
+{{/result.group}}

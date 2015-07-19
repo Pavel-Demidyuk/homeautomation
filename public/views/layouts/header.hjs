@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap-switch.min.css' />
+
+    <script data-main="javascripts/main" src="javascripts/libs/require/require.js"></script>
+
+    <!--
+    <script src="/javascripts/libs/jquery/jquery-2.1.1.min.js"></script>
+    <script src="/javascripts/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="/javascripts/libs/bootstrap/bootstrap-switch.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    -->
+
+  </head>
+  <body>

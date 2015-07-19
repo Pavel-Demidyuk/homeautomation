@@ -1,0 +1,32 @@
+<form id="installDrives">
+<input type=hidden name=type[{{name}}] value=drive>
+<ul>
+<div>New drives found:</div>
+{{#drives}}
+
+    <li class="drive" data-drive="{{name}}" data-channel="A">
+        {{name}}
+        <div>
+            <select name=group[{{name}}] data-name="drive-groups" data-drive="{{name}}">
+                <option name="skip" selected>Generic</option>
+                <option name="add">..add new group</option>
+            </select><br>
+            <input name=title_A[{{name}}] data-drive-title-edit={{name}} type="text" value="channel A">
+            <select name=drive_type_A[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
+                <option name="{{type}}">loading..</option>
+            </select>
+            <input data-drive="{{name}}" data-channel="A" class="dimension-switch" type="checkbox" {{#content.sensedA}}checked{{/content.sensedA}}>
+        </div>
+
+        <div>
+                <input name=title_B[{{name}}] data-drive-title-edit={{name}} type="text" value="channel B">
+                <select name=drive_type_B[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
+                    <option name="{{type}}">loading..</option>
+                </select>
+                <input data-drive="{{name}}" data-channel="B" class="dimension-switch" type="checkbox" {{#content.sensedB}}checked{{/content.sensedB}}>
+        </div>
+    </li>
+{{/drives}}
+<input id="saveDrives" type=submit>
+</ul>
+</form>

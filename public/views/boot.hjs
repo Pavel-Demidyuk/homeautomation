@@ -1,0 +1,6 @@
+{{>header}}
+{{$content}}
+Smart Control<br/>
+Loading...
+{{/content}}
+{{>footer}}

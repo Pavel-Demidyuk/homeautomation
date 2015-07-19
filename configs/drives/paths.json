@@ -1,0 +1,8 @@
+{
+  "drivesPath": "/../../drives",
+  "pioA": "PIO.A",
+  "pioB": "PIO.A",
+  "sensedA": "sensed.A",
+  "sensedB": "sensed.B",
+  "driveTypes": "configs/drives/types.json"
+}
