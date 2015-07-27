@@ -31,6 +31,7 @@ var registerListeners = function (app) {
 			}
 
 			else {
+				console.log(drives);
 				app.io.broadcast("page:home", drives);
 			}
 		});

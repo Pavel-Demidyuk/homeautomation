@@ -13,6 +13,7 @@ define(["jquery", "bootstrap_switch"], function ($, bootstrapSwitch) {
 				return;
 			}
 
+            // switch drive
 			$('.dimension-switch').each(function (e, element) {
 				// bind switch event
 				$(element).on('switchChange.bootstrapSwitch', null, {io: io}, function (e, state) {
@@ -44,6 +45,8 @@ define(["jquery", "bootstrap_switch"], function ($, bootstrapSwitch) {
 		},
 
 		updateStates: function (drives) {
+			console.log(drives);
+
 			for (var key in drives) {
 				this.singleDriveStateUpdate(drives[key].id, drives[key].state);
 			}

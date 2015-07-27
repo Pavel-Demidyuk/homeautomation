@@ -1,9 +1,8 @@
 <form id="installDrives">
-<input type=hidden name=type[{{name}}] value=drive>
 <ul>
 <div>New drives found:</div>
 {{#drives}}
-
+    <input type=hidden name=type[{{name}}] value=drive>
     <li class="drive" data-drive="{{name}}" data-channel="A">
         {{name}}
         <div>

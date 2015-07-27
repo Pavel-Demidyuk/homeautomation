@@ -135,7 +135,7 @@ var dbModel = function () {
 		})
 	}
 
-	this.addDrivers = function (drives, callback) {
+	this.addDrives = function (drives, callback) {
 		db.bulk({docs: drives}, function (error, response) {
 			if (error) {
 				// @TODO log

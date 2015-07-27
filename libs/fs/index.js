@@ -57,7 +57,6 @@ var FsController = function () {
 
 	this.fetchTypes = function () {
 		var typesPath = __dirname + '/../../' + configPaths.driveTypes;
-		//var typesPath = '/home/epam/www/smarthome/configs/drives/types.json';
 		fs.readFile(typesPath, {encoding: 'utf8'}, function (err, content) {
 			if (err) throw err;
 			self.emit("typesLoaded", JSON.parse(content));
@@ -108,7 +107,25 @@ var FsController = function () {
 	}
 
 	this.getCurrentState = function (driveId) {
-		return fs.readFileSync(this.getFullFilePath(driveId), {encoding: 'utf8'});
+        var paths = this.getDrivePaths(driveId);
+
+		var result = {}
+		paths.forEach(function(path){
+			if(path.name == 'sensedA') {
+				result.A = path.path;
+			}
+
+			if(path.name == 'sensedB') {
+				result.B = path.path;
+			}
+		})
+
+		var resultFs =  {
+			A: fs.readFileSync(result.A) + "_",
+			B: fs.readFileSync(result.B) + "_"
+		}
+
+		console.log("_________________________", resultFs);
 	}
 }
 

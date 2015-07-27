@@ -5,7 +5,8 @@ will display here
         <li>{{groupName}}
             <ul>
                 {{#drives}}
-                    <li>{{value.title}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
+                    <li>{{value.title_A}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
+                    <li>{{value.title_B}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
                 {{/drives}}
             </ul>
         </li>

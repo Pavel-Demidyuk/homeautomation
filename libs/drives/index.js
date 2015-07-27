@@ -39,7 +39,6 @@ var DrivesController = function (dbModel) {
 	this.newDrivesAvailable = function () {
 		this.newDrives = [];
 		var found = false;
-
 		this.fsDrives.forEach(function (fsDrive) {
 			self.drives.forEach(function (drive) {
 				if (drive.id == fsDrive.name) {
@@ -65,7 +64,7 @@ var DrivesController = function (dbModel) {
 	}
 
 	this.saveNewDrives = function (drivesData) {
-		this.dbModel.addDrivers(this.extractDrivesData(drivesData), function(){
+		this.dbModel.addDrives(this.extractDrivesData(drivesData), function(){
 			self.emit("drivesSaved");
 		});
 	}
