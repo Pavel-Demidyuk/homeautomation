@@ -1,4 +1,4 @@
-define(["jquery", "bootstrap_switch"], function ($, bootstrapSwitch) {
+define(["jquery"], function ($) {
 
 	var io,
 		bindFlag = false;
@@ -24,7 +24,7 @@ define(["jquery", "bootstrap_switch"], function ($, bootstrapSwitch) {
 						state: state
 					});
 				});
-				$(element).bootstrapSwitch();
+				//$(element).bootstrapSwitch();
 			});
 
 			bindFlag = true;

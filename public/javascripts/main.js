@@ -1,8 +1,8 @@
 require.config({
 	paths: {
 		jquery: 'libs/jquery/jquery-2.1.1.min',
-		bootstrap: 'libs/bootstrap/bootstrap.min',
-		bootstrap_switch: 'libs/bootstrap/bootstrap-switch.min',
+		//bootstrap: 'libs/bootstrap/bootstrap.min',
+		//bootstrap_switch: 'libs/bootstrap/bootstrap-switch.min',
 		socket_io: '/socket.io/socket.io.js',
 		hogan: 'libs/hogan/hogan',
 		text: 'libs/require/text'
@@ -11,9 +11,9 @@ require.config({
 		"bootstrap" : {
 			deps: ["jquery"]
 		},
-		"bootstrap_switch" : {
-			deps: ["bootstrap", "jquery"]
-		},
+		//"bootstrap_switch" : {
+		//	deps: ["bootstrap", "jquery"]
+		//},
 		"hogan": {exports: "Hogan"}
 	}
 });

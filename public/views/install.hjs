@@ -1,31 +1,120 @@
-<form id="installDrives">
-<ul>
-<div>New drives found:</div>
-{{#drives}}
-    <input type=hidden name=type[{{name}}] value=drive>
-    <li class="drive" data-drive="{{name}}" data-channel="A">
-        {{name}}
-        <div>
-            <select name=group[{{name}}] data-name="drive-groups" data-drive="{{name}}">
-                <option name="skip" selected>Generic</option>
-                <option name="add">..add new group</option>
-            </select><br>
-            <input name=title_A[{{name}}] data-drive-title-edit={{name}} type="text" value="channel A">
-            <select name=drive_type_A[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
-                <option name="{{type}}">loading..</option>
-            </select>
-            <input data-drive="{{name}}" data-channel="A" class="dimension-switch" type="checkbox" {{#content.sensedA}}checked{{/content.sensedA}}>
-        </div>
+<!-- Default Slider -->
 
-        <div>
-                <input name=title_B[{{name}}] data-drive-title-edit={{name}} type="text" value="channel B">
-                <select name=drive_type_B[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
-                    <option name="{{type}}">loading..</option>
-                </select>
-                <input data-drive="{{name}}" data-channel="B" class="dimension-switch" type="checkbox" {{#content.sensedB}}checked{{/content.sensedB}}>
-        </div>
-    </li>
-{{/drives}}
-<input id="saveDrives" type=submit>
-</ul>
+<form id="installDrives">
+<h3>Edit drive</h3>
+<h6>id: 3A.324409382092483</h6>
+<span style="float:left">
+   <table>
+       <thead>
+          <tr><th>Channel A</th></tr>
+       </thead>
+       <tbody>
+           <tr>
+               <td>
+               <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+                   <input type="checkbox" id="switch-1" class="mdl-switch__input" checked />
+                   <span class="mdl-switch__label"></span>
+               </label>
+               </td>
+           </tr>
+            <tr>
+                <td>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="flash1">
+                        <input checked class="mdl-radio__button" id="flash1" name="switcher" type="radio" value="on">
+                        <span class="mdl-radio__label">{{txt.switcher}}</span>
+                    </label>
+                 </td>
+            </tr>
+            <tr>
+            <td>
+
+               <div class="mdl-textfield mdl-js-textfield">
+                 <input class="mdl-textfield__input" type="text" id="user" pattern="[A-Z,a-z, ]*" />
+                 <label class="mdl-textfield__label" for="user">Title</label>
+                 <span class="mdl-textfield__error">Letters and spaces only</span>
+               </div>
+
+
+               </td>
+
+           </tr>
+       </tbody>
+   </table>
+</span>
+
+
+
+
+<span>
+   <table>
+       <thead>
+          <tr><th>Channel B</th></tr>
+       </thead>
+       <tbody>
+            <tr>
+            <td>
+                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+                   <input type="checkbox" id="switch-1" class="mdl-switch__input" checked />
+                   <span class="mdl-switch__label"></span>
+               </label>
+           </td>
+           </tr>
+           <tr>
+               <td>
+                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="flash2">
+                       <input class="mdl-radio__button" id="flash2" name="switcher" type="radio" value="on">
+                       <span class="mdl-radio__label">{{txt.switcher}}</span>
+                   </label>
+               </td>
+           </tr>
+           <tr>
+             <td>
+
+               <div class="mdl-textfield mdl-js-textfield">
+                 <input class="mdl-textfield__input" type="text" id="user" pattern="[A-Z,a-z, ]*" />
+                 <label class="mdl-textfield__label" for="user">Title</label>
+                 <span class="mdl-textfield__error">Letters and spaces only</span>
+               </div>
+
+
+               </td>
+            </tr>
+       </tbody>
+   </table>
+</span>
+
+
+
+
+<div class="mdl-textfield mdl-js-textfield textfield-demo">
+    <ul>
+        <div>{{txt.newDrivesFound}}</div>
+        {{#drives}}
+            <input type=hidden name=type[{{name}}] value=drive>
+            <li class="drive" data-drive="{{name}}" data-channel="A">
+                {{name}}
+                <div>
+                    <select name=group[{{name}}] data-name="drive-groups" data-drive="{{name}}">
+                        <option name="skip" selected>Generic</option>
+                        <option name="add">..{{txt.addNewGroup}}</option>
+                    </select><br>
+                    <input name=title_A[{{name}}] data-drive-title-edit={{name}} class="mdl-textfield__input" type="text" value="channel A">
+                    <select name=drive_type_A[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
+                        <option name="{{type}}">{{txt.loading}}..</option>
+                    </select>
+                    <input data-drive="{{name}}" data-channel="A" class="dimension-switch" type="checkbox" {{#content.sensedA}}checked{{/content.sensedA}}>
+                </div>
+
+                <div>
+                        <input name=title_B[{{name}}] data-drive-title-edit={{name}} class="mdl-textfield__input" type="text" value="channel B">
+                        <select name=drive_type_B[{{name}}] data-name="drive-types" id="driveTypes" data-value="{{name}}">
+                            <option name="{{type}}">{{txt.loading}}..</option>
+                        </select>
+                        <input data-drive="{{name}}" data-channel="B" class="dimension-switch" type="checkbox" {{#content.sensedB}}checked{{/content.sensedB}}>
+                </div>
+            </li>
+        {{/drives}}
+        <button id="saveDrives" type=submit class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">{{txt.save}}</button>
+    </ul>
+</div>
 </form>

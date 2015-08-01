@@ -1,19 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>{{ title }}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-    <link rel='stylesheet' href='/stylesheets/bootstrap-switch.min.css' />
+    <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">-->
+
+    <!-- MDL Section -->
+      <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.indigo-pink.min.css">
+      <script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <script data-main="javascripts/main" src="javascripts/libs/require/require.js"></script>
-
-    <!--
-    <script src="/javascripts/libs/jquery/jquery-2.1.1.min.js"></script>
-    <script src="/javascripts/libs/bootstrap/bootstrap.min.js"></script>
-    <script src="/javascripts/libs/bootstrap/bootstrap-switch.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    -->
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>

@@ -1,4 +1,4 @@
-define(["jquery", "bootstrap_switch", 'modules/drives_base'], function ($, bootstrapSwitch, drivesBase) {
+define(["jquery", 'modules/drives_base'], function ($, drivesBase) {
 
 	var io;
 
