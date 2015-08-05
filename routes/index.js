@@ -4,8 +4,8 @@ var FsController = require('../libs/fs');
 var fsController = new FsController();
 var DrivesController = require('../libs/drives');
 var drivesController = new DrivesController(dbModel);
-var GroupsController = require('../libs/groups');
-var groupsController = new GroupsController(dbModel);
+var RoomsController = require('../libs/rooms');
+var roomsController = new RoomsController(dbModel);
 var events = require('events');
 
 var globalRes;
@@ -37,12 +37,6 @@ var registerListeners = function (app) {
 		});
 	});
 
-	fsController.on("typesLoaded", function (types) {
-		app.io.broadcast('drives:typesLoaded', {
-			types: types
-		})
-	});
-
 	fsController.on("statesFetched", function (states) {
 		app.io.broadcast("drives:statesFetched", states);
 	});
@@ -59,13 +53,13 @@ var registerListeners = function (app) {
 		drivesController.fetchAllDrives();
 	});
 
-	groupsController.on("groupAdded", function () {
-		// reload groups after adding new group
-		groupsController.fetchGroups();
+	roomsController.on("roomAdded", function () {
+		// reload rooms after adding new room
+		roomsController.fetchRooms();
 	});
 
-	groupsController.on("groupsLoaded", function (groups) {
-		app.io.broadcast('drives:groupsLoaded', groups)
+	roomsController.on("roomsLoaded", function (rooms) {
+		app.io.broadcast('drives:roomsLoaded', rooms)
 	});
 }
 
@@ -86,8 +80,7 @@ var defineRoutes = function (app) {
 			fsController.switchDrive(req.data.name);
 		},
 		'installPageRendered': function () {
-			fsController.fetchTypes();
-			groupsController.fetchGroups();
+			roomsController.fetchRooms();
 		},
 		'save': function (drives) {
 			drivesController.saveNewDrives(drives.data);
@@ -98,9 +91,9 @@ var defineRoutes = function (app) {
 		}
 	});
 
-	app.io.route('groups', {
+	app.io.route('rooms', {
 		'add': function (req) {
-			groupsController.add(req.data);
+			roomsController.add(req.data);
 		}
 	});
 }
@@ -121,7 +114,7 @@ module.exports = function (app) {
 		dbModel.init();
 		fsController.init();
 		drivesController.init();
-		groupsController.init();
+		roomsController.init();
 
 		dbModel.on("ready", function () {
 			registerListeners(app);

@@ -55,13 +55,6 @@ var FsController = function () {
 		]
 	}
 
-	this.fetchTypes = function () {
-		var typesPath = __dirname + '/../../' + configPaths.driveTypes;
-		fs.readFile(typesPath, {encoding: 'utf8'}, function (err, content) {
-			if (err) throw err;
-			self.emit("typesLoaded", JSON.parse(content));
-		})
-	}
 
 	/**
 	 * Detects drive type.
@@ -124,8 +117,6 @@ var FsController = function () {
 			A: fs.readFileSync(result.A) + "_",
 			B: fs.readFileSync(result.B) + "_"
 		}
-
-		console.log("_________________________", resultFs);
 	}
 }
 

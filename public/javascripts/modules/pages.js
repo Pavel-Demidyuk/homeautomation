@@ -52,7 +52,7 @@ define(["jquery", "hogan"],
 							langPack = data;
 							self.render(pageName, inputData, callback);
 						},
-						fail: console.log("Can't load data from " + getTxtUrl()) //@todo
+						fail: function(data) {console.log("Can't load language data")}
 					});
 				}
 

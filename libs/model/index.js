@@ -54,9 +54,9 @@ var dbModel = function () {
 						}
 					},
 
-					getAllGroups: {
+					getAllRooms: {
 						"map": function (doc) {
-							if (doc.type == "group") {
+							if (doc.type == "room") {
 								emit(doc.name, doc.driveId);
 							}
 						}
@@ -100,10 +100,10 @@ var dbModel = function () {
 		this.dbConnect();
 	};
 
-	this.addGroup = function (groupName, driveId, callback) {
+	this.addRoom = function (roomName, driveId, callback) {
 		db.insert({
-			type: "group",
-			name: groupName,
+			type: "room",
+			name: roomName,
 			driveId: driveId
 		}, function (err, body) {
 			if (err) throw err;
@@ -123,14 +123,14 @@ var dbModel = function () {
 		})
 	};
 
-	this.getAllGroups = function (callback) {
-		db.view("drives", "getAllGroups", function (err, body) {
+	this.getAllRooms = function (callback) {
+		db.view("drives", "getAllRooms", function (err, body) {
 			if (err) throw err;
 			if (callback) {
 				callback(body.rows);
 			}
 			else {
-				self.emit("getAllGroups", body.rows);
+				self.emit("getAllRooms", body.rows);
 			}
 		})
 	}

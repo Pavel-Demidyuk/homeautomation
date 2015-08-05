@@ -1,10 +1,10 @@
 // Filename: app.js
 define([
-	'socket_io',
-	'modules/drives_base',
-	'modules/drives_install',
-	'modules/drives_list',
-	'modules/pages'
+	"socket_io",
+	"modules/drives_base",
+	"modules/drives_install",
+	"modules/drives_list",
+	"modules/pages"
 ], function(socket_io, drivesBase, drivesInstall, drivesList, pages){
 
 	var io;
@@ -28,12 +28,11 @@ define([
 			drivesBase.serverSwitch(data);
 		})
 
-		// there are incoming types from the server
-		io.on("drives:typesLoaded", function(data){
-			drivesInstall.renderTypes(data);
+		// there are incoming rooms from the server
+		io.on("drives:roomsLoaded", function(data){
+			drivesInstall.typeaheadInit(data);
 		})
 
-		// there are incoming types from the server
 		io.on("drives:groupsLoaded", function(data){
 			drivesInstall.renderGroups(data);
 		})

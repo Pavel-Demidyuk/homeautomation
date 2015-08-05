@@ -7,7 +7,6 @@ client1.on("subscribe", function (channel, count) {
 });
 
 client1.on("message", function (channel, message) {
-	console.log("client1 channel " + channel + ": " + message);
 	msg_count += 1;
 	if (msg_count === 3) {
 		//client1.unsubscribe();

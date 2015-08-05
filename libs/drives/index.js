@@ -54,8 +54,6 @@ var DrivesController = function (dbModel) {
 			}
 		})
 
-		console.log("|new drives", this.newDrives);
-
 		if (this.newDrives.length) {
 			return true;
 		}
