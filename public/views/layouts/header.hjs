@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
     <title>{{ title }}</title>
     <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">-->
 
     <!-- MDL Section -->
-    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.red-orange.min.css">
-    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/stylesheets/mdl/material.red-orange.min.css">
+    <script src="/javascripts/material.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/mdl/icon.css?family=Material+Icons">
     <!-- /MDL -->
 
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <script data-main="javascripts/main" src="javascripts/libs/require/require.js"></script>
+    <script data-main="javascripts/main" src="/javascripts/libs/require/require.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="http://cdn.freefavicon.com/freefavicons/objects/brain-152-192626.png">
+
 </head>
 <body>

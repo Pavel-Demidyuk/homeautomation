@@ -1,15 +1,16 @@
-<form id="installDrives">
+{{#drives}}
+<form id="installDrivesForm" data-drive="{{name}}" class="drive_install_form">
     <h3>{{txt.addDrive}}</h3>
-    <h6>id: 3A.324409382092483</h6>
+    <h6>{{name}}</h6>
 
     <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="text" id="user" pattern="[A-Z,a-z, ]*"/>
+        <input class="mdl-textfield__input" data-for="drive title" type="text" pattern="[A-Z,a-z, ]*"/>
         <label class="mdl-textfield__label" for="user">{{txt.title}}</label>
         <span class="mdl-textfield__error">{{txt.lettersAndSpaces}}</span>
     </div>
 
     <div class="mdl-textfield mdl-js-textfield" style="display: block">
-        <input class="mdl-textfield__input typeahead" type="text" id="user" pattern="[A-Z,a-z, ]*"/>
+        <input class="mdl-textfield__input typeahead" data-for="drive title" type="text" pattern="[A-Z,a-z, ]*"/>
         <label class="mdl-textfield__label" for="user">{{txt.room}}</label>
         <span class="mdl-textfield__error">{{txt.lettersAndSpaces}}</span>
     </div>
@@ -20,9 +21,9 @@
        <tbody>
        <tr>
            <td class="channel_name">
-               <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
-                   <input type="checkbox" id="switch-1" class="mdl-switch__input" checked/>
-                   <span class="mdl-switch__label">Channel A</span>
+               <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" data-drive="{{name}}" for="switch-1">
+                   <input type="checkbox" id="switch-1" data-channel="A" class="mdl-switch__input" {{#content.sensedA}}checked{{/content.sensedA}}/>
+                   <span class="mdl-switch__label">{{txt.channel_a}}</span>
                </label>
            </td>
        </tr>
@@ -30,11 +31,11 @@
        <tr>
            <td align="center">
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary">
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel A type switcher">
                    {{txt.switcher}}
                </button>
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary" disabled>
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel A type sensor" disabled>
                    {{txt.sensor}}
                </button>
            </td>
@@ -49,9 +50,9 @@
        <tbody>
        <tr>
            <td class="channel_name">
-               <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
-                   <input type="checkbox" id="switch-1" class="mdl-switch__input" checked/>
-                   <span class="mdl-switch__label">Channel B</span>
+               <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
+                   <input type="checkbox" id="switch-2" data-channel="B" class="mdl-switch__input" {{#content.sensedB}}checked{{/content.sensedB}}/>
+                   <span class="mdl-switch__label">{{txt.channel_b}}</span>
                </label>
            </td>
        </tr>
@@ -59,11 +60,11 @@
        <tr>
            <td align="center">
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary" disabled>
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel B type switcher">
                    {{txt.switcher}}
                </button>
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary">
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel B type sensor" disabled>
                    {{txt.sensor}}
                </button>
            </td>
@@ -73,10 +74,9 @@
    </table>
 </span>
 
-
     <div class="saveBlock">
 
-        <button id="saveDrives" type= submit
+        <button id="saveDrives" type=submit
                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             {{txt.saveAndNext}}
         </button>
@@ -116,3 +116,5 @@
         </ul>
     </div>-->
 </form>
+
+{{/drives}}

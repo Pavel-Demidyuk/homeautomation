@@ -8,8 +8,13 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
 		},
 
 		prepare: function () {
+			this.displayOneDrive();
 			this.bindEvents();
 			io.emit("drives:installPageRendered");
+		},
+
+		displayOneDrive: function (){
+			$("#installDrivesForm:first").show();
 		},
 
 		typeaheadInit: function(data) {
@@ -53,7 +58,6 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
 
 		bindEvents: function () {
 			drivesBase.bindEvents();
-
 			// group add event
 			$('select[data-name=drive-groups]').each(function (e, element) {
 				$(element).change(function () {
@@ -77,7 +81,7 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
 			})
 		},
 
-		renderTypes: function (data) {
+	/*	renderTypes: function (data) {
 			$('select[data-name=drive-types]').each(function (e, element) { // each drive
 				var driveAutoDetectedType = $(element).find('option:selected').attr("name");
 				$(element).find('option').remove();
@@ -93,9 +97,9 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
 				}
 
 			})
-		},
+		},*/
 
-		renderGroups: function (data) {
+		/*renderGroups: function (data) {
 			$('select[data-name=drive-groups]').each(function (e, element) { // each drive
 				for (var i = 0; i < data.length; i++) {
 					var driveId = $(element).data("drive"),
@@ -110,6 +114,6 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
 					}
 				}
 			})
-		}
+		}*/
 	}
 });

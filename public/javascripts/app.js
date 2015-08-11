@@ -32,10 +32,12 @@ define([
 		io.on("drives:roomsLoaded", function(data){
 			drivesInstall.typeaheadInit(data);
 		})
+/*
 
 		io.on("drives:groupsLoaded", function(data){
 			drivesInstall.renderGroups(data);
 		})
+*/
 
 		io.on("drives:statesFetched", function(data){
 			drivesBase.updateStates(data);

@@ -77,7 +77,8 @@ var defineRoutes = function (app) {
 
 	app.io.route('drives', {
 		'userSwitch': function (req) {
-			fsController.switchDrive(req.data.name);
+			console.log("data swithced");
+			fsController.switchDrive(req.data);
 		},
 		'installPageRendered': function () {
 			roomsController.fetchRooms();

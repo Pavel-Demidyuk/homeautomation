@@ -92,15 +92,20 @@ var FsController = function () {
 
 	}
 
-	this.switchDrive = function (driveId) {
-		var state = this.getCurrentState(driveId) == 1 ? 0 : 1;
-		fs.writeFile(this.getFullFilePath(driveId), state, function (err) {
+	this.switchDrive = function (drive, channel) {
+		var state = this.getCurrentStates(drive.id);
+
+		console.log(this.getDrivePaths(drive.id), drive.channel);
+		return;
+
+		
+		fs.writeFile(this.getDrivePaths(drive.id)[drive.channel], state, function (err) {
 			if (err) throw err;
 		})
 	}
 
-	this.getCurrentState = function (driveId) {
-        var paths = this.getDrivePaths(driveId);
+	this.getCurrentStates = function (id) {
+        var paths = this.getDrivePaths(id);
 
 		var result = {}
 		paths.forEach(function(path){
@@ -113,9 +118,9 @@ var FsController = function () {
 			}
 		})
 
-		var resultFs =  {
-			A: fs.readFileSync(result.A) + "_",
-			B: fs.readFileSync(result.B) + "_"
+		return {
+			A: fs.readFileSync(result.A) == 1 ? 1 : 0,
+			B: fs.readFileSync(result.B) == 1 ? 1 : 0
 		}
 	}
 }

@@ -13,21 +13,26 @@ define(["jquery"], function ($) {
 				return;
 			}
 
-            // switch drive
-			$('.dimension-switch').each(function (e, element) {
-				// bind switch event
-				$(element).on('switchChange.bootstrapSwitch', null, {io: io}, function (e, state) {
-
-					e.data.io.emit("drives:userSwitch", {
-						name: e.currentTarget.dataset.drive,
-						channel: e.currentTarget.channel,
-						state: state
-					});
-				});
-				//$(element).bootstrapSwitch();
-			});
+			this.bindSwitcher();
 
 			bindFlag = true;
+		},
+
+		bindSwitcher: function() {
+			// switch drive
+			$('.mdl-switch').each(function (e, element) {
+				var driveId = $(element).closest("form").data("drive");
+
+				var checkbox = $(element).find("input");
+				$(checkbox).on('change', function () {
+					var options = {
+						id: driveId,
+						channel: checkbox.data("channel"),
+						state: checkbox.prop("checked")
+					};
+					io.emit("drives:userSwitch", options);
+				});
+			});
 		},
 
 		findSwitchByDriveId: function (driveId) {
@@ -35,7 +40,6 @@ define(["jquery"], function ($) {
 		},
 
 		serverSwitch: function (data) {
-			console.log("fucking switch!!!", data);
 			var element = $('input[data-drive="' + data.name + '"]');
 			element.bootstrapSwitch('state', data.state, true);
 		},
