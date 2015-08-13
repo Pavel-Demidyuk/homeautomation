@@ -31,11 +31,11 @@
        <tr>
            <td align="center">
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel A type switcher">
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-channel="A" data-for="channel_type" data-type="switcher">
                    {{txt.switcher}}
                </button>
                <!-- Primary-colored flat button -->
-               <button class="mdl-button mdl-js-button mdl-button--primary" data-for="channel A type sensor" disabled>
+               <button class="mdl-button mdl-js-button mdl-button--primary" data-channel="A" data-for="channel_type" data-type="sensor">
                    {{txt.sensor}}
                </button>
            </td>

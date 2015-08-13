@@ -13,8 +13,5 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script data-main="javascripts/main" src="/javascripts/libs/require/require.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="icon" type="image/png" href="http://cdn.freefavicon.com/freefavicons/objects/brain-152-192626.png">
-
 </head>
 <body>

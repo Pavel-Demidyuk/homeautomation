@@ -1,3 +1,6 @@
+mode = "dev";
+
+
 var Model = require('../libs/model');
 var dbModel = new Model;
 var FsController = require('../libs/fs');
@@ -77,8 +80,7 @@ var defineRoutes = function (app) {
 
 	app.io.route('drives', {
 		'userSwitch': function (req) {
-			console.log("data swithced");
-			fsController.switchDrive(req.data);
+			fsController.switchDrive(req.data.id, req.data.channel);
 		},
 		'installPageRendered': function () {
 			roomsController.fetchRooms();
