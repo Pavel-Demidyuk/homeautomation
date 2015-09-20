@@ -3,94 +3,135 @@ var EventEmitter = require('events').EventEmitter;
 
 var DrivesController = function (dbModel) {
 
-	var self = this;
-	this.dbModel = dbModel;
-	this.drives = [];
-	this.fsDrives = [];
-	this.newDrives = [];
+    var self = this;
+    this.dbModel = dbModel;
+    this.drives = [];
+    this.fsDrives = [];
+    this.newDrives = [];
+    this.driveByNames = [];
 
-	this.init = function () {
-		this.removeAllListeners();
-	};
+    this.init = function () {
+        this.removeAllListeners();
+    };
 
-	/**
-	 * Detects drive type.
-	 *
-	 * @param driveId
-	 * @returns {string}
-	 */
-	this.detectType = function (driveId) {
-		// todo implement logic
-		return 'switcher';
-	}
+    /**
+     * Detects drive type.
+     *
+     * @param driveId
+     * @returns {string}
+     */
+    this.detectType = function (driveId) {
+        // todo implement logic
+        return 'switcher';
+    }
 
-	this.setFsDrives = function (fsDrives) {
-		this.fsDrives = fsDrives;
-	}
+    this.setFsDrives = function (fsDrives) {
+        this.fsDrives = fsDrives;
+    }
 
-	this.fetchAllDrives = function () {
+    this.fetchAllDrives = function () {
 
-		this.dbModel.getAllDrives(function (data) {
-			self.drives = data;
-			self.emit("drivesFetched", data);
-		});
-	}
+        this.dbModel.getAllDrives(function (data) {
+            self.drives = data;
+            self.mapDrivesByNames(data);
+            self.emit("drivesFetched", data);
+        });
+    }
 
-	this.newDrivesAvailable = function () {
-		this.newDrives = [];
-		var found = false;
-		this.fsDrives.forEach(function (fsDrive) {
-			self.drives.forEach(function (drive) {
-				if (drive.id == fsDrive.name) {
-					found = true;
-					return 1;
-				}
-			})
-			if (!found) {
-				self.newDrives.push(fsDrive);
-			}
-			else {
-				found = false;
-			}
-		})
+    this.mapDrivesByNames = function (drives) {
+        var self = this;
+        drives.forEach(function (drive) {
+            self.driveByNames[drive.value.drive] = drive.value;
+        })
+    }
 
-		if (this.newDrives.length) {
-			return true;
-		}
+    this.newDrivesAvailable = function () {
+        this.newDrives = [];
+        var found = false;
 
-		return false;
-	}
+        this.fsDrives.forEach(function (fsDrive) {
+            self.drives.forEach(function (dbDrive) {
+                if (dbDrive.value.drive == fsDrive.name) {
+                    found = true;
+                    return 1;
+                }
+            })
+            if (!found) {
+                self.newDrives.push(fsDrive);
+            }
+            else {
+                found = false;
+            }
+        })
+        if (this.newDrives.length) {
+            return true;
+        }
 
-	this.saveNewDrives = function (drivesData) {
-		this.dbModel.addDrives(this.extractDrivesData(drivesData), function(){
-			self.emit("drivesSaved");
-		});
-	}
+        return false;
+    }
 
-	this.extractDrivesData = function (drivesData) {
-		var result = [];
+    this.saveNewDrives = function (drivesData) {
+        this.dbModel.addDrives(this.formatDriveData(drivesData), function () {
+            self.emit("drivesSaved");
+        });
+    }
 
-		for (var i = 0; i < drivesData.length; i++) {
-			var re = /(.*)\[(.*)\]/g;
-			var info = re.exec(drivesData[i].name);
-			if (!result[info[2]])
-			{
-				result[info[2]] = {"_id" : info[2]};
-			}
+    this.formatDriveData = function (driveData) {
+        result = {};
 
-			result[info[2]][info[1]] =  drivesData[i].value
-		}
-		var retValue = []
-		for (var key in result) {
-            if (!key) continue;
-			retValue.push(result[key]);
-		}
-		return retValue;
-	}
+        driveData.forEach(function (row) {
+            result[row.name] = row.value;
+        })
 
-	this.getNewDrives = function () {
-		return this.newDrives;
-	}
+        return [result];
+    }
+
+    this.getNewDrives = function () {
+        return this.newDrives;
+    }
+
+    this.mapStates = function (states) {
+        result = [];
+        var self = this;
+        states.forEach(function (state) {
+
+            var drive = self.getDriveByName(state.driveName);
+            var status = self.getStatus(drive, state);
+            result.push({
+                name: drive.drive,
+                state: status
+            })
+        })
+
+        return result;
+    }
+
+    this.getDriveByName = function (driveName) {
+        return this.driveByNames[driveName];
+    }
+
+    this.getStatus = function (drive, fsStates) {
+        return fsStates.states[this.getSensorChannel(drive)];
+    }
+
+    this.getSensorChannel = function (drive) {
+        return drive.channel_A == 'sensor' ? 'A' : 'B';
+    }
+
+    this.mapChannel = function (driveName, channel) {
+        console.log('!!!!!!!!!', driveName);
+        if (channel != 'A' && channel != 'B') {
+            channel = this.fetchChannelByDriveName(driveName);
+        }
+
+        console.log('###########', channel);
+
+        return channel;
+    }
+
+    this.fetchChannelByDriveName = function (driveName) {
+        return this.driveByNames[driveName].channel_A == 'switcher' ? 'A' : 'B';
+    }
 }
 
 util.inherits(DrivesController, EventEmitter);

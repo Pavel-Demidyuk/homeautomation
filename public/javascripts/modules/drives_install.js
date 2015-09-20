@@ -1,5 +1,6 @@
 define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) {
     var io;
+    var numberOfCurrentDisplayedForm;
 
     return {
 
@@ -8,13 +9,9 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
         },
 
         prepare: function () {
-            this.displayOneDrive();
+            this.displayNextDriveForm();
             this.bindEvents();
             io.emit("drives:installPageRendered");
-        },
-
-        displayOneDrive: function () {
-            $("#installDrivesForm:first").show();
         },
 
         typeaheadInit: function (data) {
@@ -57,19 +54,27 @@ define(['modules/drives_base', "jquery", "typeahead"], function (drivesBase, $) 
         },
 
         bindSubmit: function () {
-            // submit
+            var self = this;
             $("#installDrivesForm").submit(function (event) {
-                console.log($(this).serializeArray());
                 event.preventDefault();
-
-                return;
                 io.emit("drives:save", $(this).serializeArray());
+                self.displayNextDriveForm(true);
             })
+        },
+
+        displayNextDriveForm: function (remove) {
+            if (remove) {
+                $("#installDrivesForm:first").remove();
+
+            }
+            if ($("#installDrivesForm:first").length) {
+                $("#installDrivesForm:first").show();
+            }
         },
 
         bindSwitcherSensor: function () {
             $('button[data-for="channel_type"]').each(function (e, element) {
-                var driveId = drivesBase.getDriveIdForElement(element);
+                var driveId = $(element).data('drive');
                 var channel = $(element).data('channel');
                 var type = $(element).data('type');
                 var opponentType = type == "switcher" ? "sensor" : "switcher";

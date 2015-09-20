@@ -18,7 +18,7 @@ define([
 
 	var listen = function() {
 		io.on("page:home", function(data){
-			pages.render("home", {result:drivesList.group(data)}, function() {
+			pages.render("home", drivesList.group(data), function() {
 				drivesList.prepare();
 			});
 		})
@@ -35,13 +35,12 @@ define([
 
 		io.on("drives:statesFetched", function(data){
 			drivesBase.updateStates(data);
+			drivesList.updateRoomBadges(data);
 		})
 
 		io.on("page:install", function(data){
-			console.log(data);
-
 			pages.render("install", {drives:data}, function(){
-				drivesInstall.prepare();
+				drivesInstall.prepare(data);
 			});
 		})
 

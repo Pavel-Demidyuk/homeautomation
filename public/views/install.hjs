@@ -1,19 +1,22 @@
 {{#drives}}
 <form id="installDrivesForm" data-drive="{{name}}" class="drive_install_form">
-    <input type="hidden" name="type_A" value="switcher"></input>
-    <input type="hidden" name="type_B" value="sensor"></input>
+    <input type="hidden" name="type" value="drive"></input>
+    <input type="hidden" name="channel_A" value="switcher"></input>
+    <input type="hidden" name="channel_B" value="sensor"></input>
+    <input type="hidden" name="drive" value="{{name}}"></input>
 
     <h3>{{txt.addDrive}}</h3>
     <h6>{{name}}</h6>
 
     <div class="mdl-textfield mdl-js-textfield">
-        <input name="title" class="mdl-textfield__input" data-for="drive title" type="text" pattern="[A-Z,a-z, ]*"/>
+        <input name="title" class="mdl-textfield__input" data-for="drive title" type="text" pattern=".+"/>
         <label class="mdl-textfield__label" for="user">{{txt.title}}</label>
         <span class="mdl-textfield__error">{{txt.lettersAndSpaces}}</span>
     </div>
 
     <div class="mdl-textfield mdl-js-textfield" style="display: block">
-        <input name="room" class="mdl-textfield__input typeahead" data-for="drive title" type="text" pattern="[A-Z,a-z, ]*"/>
+        <input name="room" class="mdl-textfield__input typeahead" data-for="drive title" type="text"
+               pattern=".+"/>
         <label class="mdl-textfield__label" for="user">{{txt.room}}</label>
         <span class="mdl-textfield__error">{{txt.lettersAndSpaces}}</span>
     </div>
@@ -25,7 +28,7 @@
        <tr>
            <td class="channel_name">
                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" data-drive="{{name}}" for="switch-1">
-                   <input type="checkbox" id="switch-1" data-channel="A" class="mdl-switch__input"
+                   <input type="checkbox" id="switch-1" data-drive="{{name}}" data-channel="A" class="mdl-switch__input"
                    {{#content.sensedA}}checked{{/content.sensedA}}/>
                    <span class="mdl-switch__label">{{txt.channel_a}}</span>
                </label>
@@ -55,7 +58,7 @@
        <tr>
            <td class="channel_name">
                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
-                   <input type="checkbox" id="switch-2" data-channel="B" class="mdl-switch__input"
+                   <input type="checkbox" id="switch-2"  data-drive="{{name}}" data-channel="B" class="mdl-switch__input"
                    {{#content.sensedB}}checked{{/content.sensedB}}/>
                    <span class="mdl-switch__label">{{txt.channel_b}}</span>
                </label>
@@ -85,5 +88,4 @@
             {{txt.saveAndNext}}
         </button>
     </div>
-</form>
-        {{/drives}}
+</form>{{/drives}}

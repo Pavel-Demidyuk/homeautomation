@@ -1,14 +1,40 @@
-will display here
+<!-- Simple header with fixed tabs. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+            mdl-layout--fixed-tabs">
+    <header class="mdl-layout__header">
+        <!--  <div class="mdl-layout__header-row">
 
-{{#result.group}}
-    <ul>
-        <li>{{groupName}}
-            <ul>
-                {{#drives}}
-                    <li>{{value.title_A}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
-                    <li>{{value.title_B}} <input data-drive="{{value._id}}" class="dimension-switch" type="checkbox" disabled></li>
-                {{/drives}}
-            </ul>
-        </li>
-    </ul>
-{{/result.group}}
+              <span class="mdl-layout-title"></span>
+          </div>-->
+
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            {{#rooms}}
+            <a href="#fixed-tab-{{roomNum}}" class="mdl-layout__tab {{#active}} is-active{{/active}}">
+                <span class="mdl-badge" data-room="{{roomNum}}" data-smth="test">{{room}}</span></a>
+            {{/rooms}}
+        </div>
+    </header>
+    <!--  <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">Menu</span>
+      </div>-->
+    <main class="mdl-layout__content">
+        {{#rooms}}
+        <section class="mdl-layout__tab-panel{{#active}} is-active{{/active}}" id="fixed-tab-{{roomNum}}" data-room="{{roomNum}}">
+            <div class="page-content">
+                <ul>
+                    {{#drives}}
+                    <li>
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-{{value.drive}}">
+                            <input type="checkbox" id="switch-{{value.drive}}" data-drive="{{value.drive}}"
+                                   class="mdl-switch__input" disabled/>
+                            <span class="mdl-switch__label">{{value.title}}</span>
+                        </label>
+                    </li>
+                    {{/drives}}
+                </ul>
+            </div>
+        </section>
+        {{/rooms}}
+    </main>
+</div>

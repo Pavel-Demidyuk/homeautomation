@@ -15,9 +15,9 @@ define(["jquery", 'modules/drives_base'], function ($, drivesBase) {
 		},
 
 		prepare: function () {
-			drivesBase.fetchStates(driveIds);
-			this.bindEvents();
 			io.emit("drives:homePageRendered");
+			this.bindEvents();
+			drivesBase.fetchStates(driveIds);
 		},
 
 		/**
@@ -27,27 +27,47 @@ define(["jquery", 'modules/drives_base'], function ($, drivesBase) {
 		 * @returns {{group: Array, noGroup: Array}}
 		 */
 		group: function (drives) {
-			var groupsObj = [], groupsArray = [], noGroup = [];
+			var groupsObj = [], roomsArray = [], noRoom = [];
+			var active = true;
 			for (var i = 0; i < drives.length; i++) {
-				if (drives[i].value.group) {
-					if (!groupsObj[drives[i].value.group]) {
-						groupsObj[drives[i].value.group] = {
-							groupName: drives[i].value.group,
+				if (drives[i].value.room) {
+					if (!groupsObj[drives[i].value.room]) {
+						groupsObj[drives[i].value.room] = {
+							room: drives[i].value.room,
+							roomNum: i,
+							active: active,
 							drives: [drives[i]]
 						}
+						if (active) {
+							active = false;
+						}
 					} else {
-						groupsObj[drives[i].value.group].drives.push(drives[i]);
+						groupsObj[drives[i].value.room].drives.push(drives[i]);
 					}
 				} else {
-					noGroup.push(drives[i].value)
+					noRoom.push(drives[i].value)
 				}
-				driveIds.push(drives[i].id);
+				driveIds.push(drives[i].value.drive);
 			}
 
 			for (var key in groupsObj) {
-				groupsArray.push(groupsObj[key])
+				roomsArray.push(groupsObj[key])
 			}
-			return {group: groupsArray, noGroup: noGroup};
-		}
+			return {rooms: roomsArray, noRoom: noRoom};
+		},
+		updateRoomBadges: function (states) {
+			for (var key in states) {
+				var roomNum = this.findDriveRoomNum(states[key].name);
+				var badgeElement = $('.mdl-badge[data-room="' + roomNum + '"]');
+				var badgeValue = badgeElement.attr('data-badge') ? parseInt(badgeElement.attr('data-badge')) : 0;
+				if (states[key].state) {
+					badgeElement.attr('data-badge', badgeValue + 1);
+				}
+			}
+		},
+
+		findDriveRoomNum: function (driveName) {
+			return drivesBase.getSwitcher(driveName).closest('section').data('room');
+		},
 	}
 });

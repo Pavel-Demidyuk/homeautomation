@@ -72,12 +72,12 @@ var FsController = function () {
         return 'switcher';
     }
 
-    this.fetchStates = function (driveIds) {
+    this.fetchStates = function (driveNames) {
         var result = [];
-        for (var key in driveIds) {
+        for (var key in driveNames) {
             result.push({
-                id: driveIds[key],
-                state: this.getCurrentState(driveIds[key]) == 1 ? 0 : 1
+                driveName: driveNames[key],
+                states: this.getCurrentStates(driveNames[key])
             });
         }
         this.emit("statesFetched", result);
@@ -97,27 +97,27 @@ var FsController = function () {
 
     }
 
-    this.switchDrive = function (driveId, channel) {
-        var state = this.getCurrentStates(driveId)[channel] == 1 ? 0 : 1;
+    this.switchDrive = function (driveName, channel) {
+        var state = this.getCurrentStates(driveName)[channel] == 1 ? 0 : 1;
 
         var fileName = "pio" + channel.toUpperCase();
-        fs.writeFile(this.getDrivePaths(driveId, fileName), state, function (err) {
+        fs.writeFile(this.getDrivePaths(driveName, fileName), state, function (err) {
             if (err) throw err;
         });
 
         if (mode == "dev") {
             var fileName = "sensed" + channel.toUpperCase();
-            fs.writeFile(this.getDrivePaths(driveId, fileName), state, function (err) {
+            fs.writeFile(this.getDrivePaths(driveName, fileName), state, function (err) {
                 if (err) throw err;
             });
         }
     }
 
-    this.getCurrentStates = function (driveId) {
-        var paths = this.getDrivePaths(driveId);
+    this.getCurrentStates = function (driveName) {
+        var paths = this.getDrivePaths(driveName);
         return {
-            A: fs.readFileSync(this.getDrivePaths(driveId, "sensedA")) == 1 ? 1 : 0,
-            B: fs.readFileSync(this.getDrivePaths(driveId, "sensedB")) == 1 ? 1 : 0
+            A: fs.readFileSync(this.getDrivePaths(driveName, "sensedA")) == 1 ? 1 : 0,
+            B: fs.readFileSync(this.getDrivePaths(driveName, "sensedB")) == 1 ? 1 : 0
         }
     }
 }

@@ -18,52 +18,48 @@ define(["jquery"], function ($) {
             bindFlag = true;
         },
 
-
-        getDriveIdForElement: function (element) {
-            return $(element).closest("form").data("drive");
-        },
-
         bindSwitcher: function () {
             var self = this;
             // switch drive
             $('.mdl-switch').each(function (e, element) {
-                var driveId = self.getDriveIdForElement(element);
                 var checkbox = $(element).find("input");
                 $(checkbox).on('change', function () {
                     var options = {
-                        id: driveId,
-                        channel: checkbox.data("channel"),
+                        id: checkbox.data("drive"),
+                        channel: checkbox.data("channel") ? checkbox.data("channel") : 'default',
                         state: checkbox.prop("checked")
                     };
+
+                    console.log(options);
                     io.emit("drives:userSwitch", options);
                 });
             });
         },
 
-        findSwitchByDriveId: function (driveId) {
-            return $('input.dimension-switch[data-drive="' + driveId + '"]').bootstrapSwitch('state', true, true);
-        },
-
         serverSwitch: function (data) {
-            var element = $('input[data-drive="' + data.name + '"]');
-            element.bootstrapSwitch('state', data.state, true);
+            // TODO implement!!!!
         },
 
         fetchStates: function (driveIds) {
             io.emit("drives:fetchStates", driveIds);
         },
 
-        updateStates: function (drives) {
-            console.log(drives);
-
-            for (var key in drives) {
-                this.singleDriveStateUpdate(drives[key].id, drives[key].state);
+        updateStates: function (states) {
+            for (var key in states) {
+                this.singleDriveStateUpdate(states[key].name, states[key].state);
             }
         },
 
-        singleDriveStateUpdate: function (driveId, state) {
-            $(this.findSwitchByDriveId(driveId)).bootstrapSwitch('disabled', false);
-            $(this.findSwitchByDriveId(driveId)).bootstrapSwitch('state', state, true);
+        singleDriveStateUpdate: function (driveName, state) {
+            var switcher = this.getSwitcher(driveName);
+            switcher.removeAttr("disabled").parent('label').removeClass('is-disabled');
+            if (state) {
+                switcher.prop('checked', 'checked').parent('label').addClass('is-checked');
+            }
+        },
+
+        getSwitcher: function (driveName) {
+            return $("#switch-" + driveName.replace(/(\.)/g, "\\$1"));
         }
     }
 });
