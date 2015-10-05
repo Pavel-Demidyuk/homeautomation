@@ -29,8 +29,6 @@ define(["jquery"], function ($) {
                         channel: checkbox.data("channel") ? checkbox.data("channel") : 'default',
                         state: checkbox.prop("checked")
                     };
-
-                    console.log(options);
                     io.emit("drives:userSwitch", options);
                 });
             });

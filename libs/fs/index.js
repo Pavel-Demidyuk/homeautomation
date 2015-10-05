@@ -2,6 +2,7 @@ var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
 var configPaths = require('../../configs/drives/paths.json');
 var util = require('util');
+var mode = "dev";
 
 var FsController = function () {
     var self = this;
@@ -9,14 +10,19 @@ var FsController = function () {
         this.removeAllListeners();
     };
 
-    this.readDrives = function () {
+    this.readDrives = function (watchDrives) {
         var result = [];
         fs.readdir(__dirname + configPaths.drivesPath, function (err, drives) {
             if (err) throw err;
             drives.forEach(function (driveId) {
-                self.getDrive(driveId, function (drive) {
+                self.fetchDriveStates(driveId, function (drive) {
                     if (err) throw err;
                     result.push({"name": driveId, content: drive});
+
+                    if (watchDrives) {
+                        self.watchDrive(driveId);
+                    }
+
                     // drives read finished
                     if (result.length === drives.length) {
                         self.emit("drivesReadFinish", result);
@@ -27,9 +33,9 @@ var FsController = function () {
         })
     }
 
-    this.getDrive = function (driveId, callBack) {
+    this.fetchDriveStates = function (driveId, callBack) {
         var result = {};
-        var drivePaths = this.getDrivePaths(driveId);
+        var drivePaths = this.getAllDrivePaths(driveId);
         var i = 1 ;
         for (var name in drivePaths) {
             (function (name) {
@@ -45,7 +51,11 @@ var FsController = function () {
         }
     }
 
-    this.getDrivePaths = function (driveId, fileName) {
+    this.getChannelPath = function(driveId, channelName) {
+        return __dirname + configPaths.drivesPath + '/' + driveId + '/' + configPaths[channelName];
+    },
+
+    this.getAllDrivePaths = function (driveId) {
         var result = {
             "pioA": __dirname + configPaths.drivesPath + '/' + driveId + '/' + configPaths.pioA,
             "pioB": __dirname + configPaths.drivesPath + '/' + driveId + '/' + configPaths.pioB,
@@ -83,12 +93,28 @@ var FsController = function () {
         this.emit("statesFetched", result);
     }
 
-    this.watchFile = function (driveId) {
-        var fullFilePath = this.getFullFilePath(driveId);
-        fs.watch(fullFilePath, {persistent: true}, function () {
-            console.log("root switch");
-            fs.readFile(fullFilePath, {encoding: 'utf8'}, function (err, content) {
-                self.emit("drivePulse", driveId, content);
+    /**
+     * Channel A - Switches relay
+     * Sensed A - Status of relay (ignored here)
+     * Channel B - Do nothing
+     * Sensed B (sensor) - Checks if there are voltage on the drive
+     *
+     * @param driveId
+     */
+    this.watchDrive = function (driveId) {
+
+        var sensedAPath = this.getChannelPath(driveId, 'sensedA');
+        var sensedBPath = this.getChannelPath(driveId, 'sensedB');
+
+        fs.watch(sensedAPath, {persistent: true}, function () {
+            fs.readFile(sensedAPath, {encoding: 'utf8'}, function (err, content) {
+                self.emit("drivePulse", driveId, "A", content);
+            });
+        });
+
+        fs.watch(sensedBPath, {persistent: true}, function () {
+            fs.readFile(sensedBPath, {encoding: 'utf8'}, function (err, content) {
+                self.emit("drivePulse", driveId, "B", content);
             });
         })
     }
@@ -101,23 +127,23 @@ var FsController = function () {
         var state = this.getCurrentStates(driveName)[channel] == 1 ? 0 : 1;
 
         var fileName = "pio" + channel.toUpperCase();
-        fs.writeFile(this.getDrivePaths(driveName, fileName), state, function (err) {
+        fs.writeFile(this.getChannelPath(driveName, fileName), state, function (err) {
             if (err) throw err;
         });
 
-        if (mode == "dev") {
+        if (this.mode == "dev") {
             var fileName = "sensed" + channel.toUpperCase();
-            fs.writeFile(this.getDrivePaths(driveName, fileName), state, function (err) {
+            fs.writeFile(this.getChannelPath(driveName, fileName), state, function (err) {
                 if (err) throw err;
             });
         }
     }
 
     this.getCurrentStates = function (driveName) {
-        var paths = this.getDrivePaths(driveName);
+        var paths = this.getAllDrivePaths(driveName);
         return {
-            A: fs.readFileSync(this.getDrivePaths(driveName, "sensedA")) == 1 ? 1 : 0,
-            B: fs.readFileSync(this.getDrivePaths(driveName, "sensedB")) == 1 ? 1 : 0
+            A: fs.readFileSync(this.getChannelPath(driveName, "sensedA")) == 1 ? 1 : 0,
+            B: fs.readFileSync(this.getChannelPath(driveName, "sensedB")) == 1 ? 1 : 0
         }
     }
 }

@@ -35,7 +35,7 @@ define([
 
 		io.on("drives:statesFetched", function(data){
 			drivesBase.updateStates(data);
-			drivesList.updateRoomBadges(data);
+			drivesList.updateRoomBadgesOnStateChange(data);
 		})
 
 		io.on("page:install", function(data){

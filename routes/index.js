@@ -43,13 +43,17 @@ var registerListeners = function (app) {
         app.io.broadcast("drives:statesFetched", drivesController.mapStates(states));
     });
 
-    fsController.on("drivePulse", function (driveId, state) { //@TODO check if it works
-        console.log("serverSwitch");
-        app.io.broadcast('drives:serverSwitch', {
+    fsController.on("drivePulse", function (driveId,  channelName, state) {
+        drivesController.handleSwitch(driveId);
+    });
+
+    drivesController.on("switch", function(driveId, state){
+        console.log("drive switch");
+        app.io.broadcast('drives:switch', {
             name: driveId,
             state: state
         })
-    });
+    })
 
     drivesController.on("drivesSaved", function () {
         drivesController.fetchAllDrives();
@@ -73,7 +77,7 @@ var defineRoutes = function (app) {
     app.io.route('app', {
         'ready': function () {
             //start point
-            fsController.readDrives();
+            fsController.readDrives(true);
         }
     });
 

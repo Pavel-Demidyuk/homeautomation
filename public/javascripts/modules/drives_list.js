@@ -12,6 +12,7 @@ define(["jquery", 'modules/drives_base'], function ($, drivesBase) {
 
 		bindEvents: function () {
 			drivesBase.bindEvents();
+			this.bindBadgeRecount();
 		},
 
 		prepare: function () {
@@ -55,14 +56,36 @@ define(["jquery", 'modules/drives_base'], function ($, drivesBase) {
 			}
 			return {rooms: roomsArray, noRoom: noRoom};
 		},
-		updateRoomBadges: function (states) {
+
+		bindBadgeRecount: function () {
+			var self = this;
+
+			$('.mdl-switch').each(function (e, element) {
+				var checkbox = $(element).find("input");
+				$(checkbox).on('change', function () {
+					self.recountBadge(checkbox.data("drive"), checkbox.prop("checked"))
+				});
+
+			});
+		},
+
+		updateRoomBadgesOnStateChange: function(states) {
 			for (var key in states) {
-				var roomNum = this.findDriveRoomNum(states[key].name);
-				var badgeElement = $('.mdl-badge[data-room="' + roomNum + '"]');
-				var badgeValue = badgeElement.attr('data-badge') ? parseInt(badgeElement.attr('data-badge')) : 0;
-				if (states[key].state) {
-					badgeElement.attr('data-badge', badgeValue + 1);
-				}
+				this.recountBadge(states[key].name, states[key].state == 1);
+			}
+		},
+
+		recountBadge: function(driveName, add) {
+			var badgeElement = $('.mdl-badge[data-room="' + this.findDriveRoomNum(driveName) + '"]');
+			var badgeValue = badgeElement.attr('data-badge') ? parseInt(badgeElement.attr('data-badge')) : 0;
+			badgeValue = badgeValue + (add ? 1 : -1);
+			if (badgeValue > 0) {
+				badgeElement.attr('data-badge', badgeValue);
+			}
+			else {
+				console.log('removing attr');
+				badgeElement.attr('data-badge', 0);
+				badgeElement.removeData("badge").removeAttr('data-badge');
 			}
 		},
 
