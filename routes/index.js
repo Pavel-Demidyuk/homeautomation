@@ -11,6 +11,39 @@ var RoomsController = require('../libs/rooms');
 var roomsController = new RoomsController(dbModel);
 var events = require('events');
 
+var OwfsClient =  require('owfs').Client;
+var owfs = new OwfsClient('127.0.0.1', '4304');
+
+owfs.read("/10.67C6697351FF", function (err, data){
+    console.log("err", err);
+    console.log("_______________");
+    console.log(data);
+    console.log("_______________");
+})
+
+owfs.dir("//mnt/1wire",function(err, directories){
+    console.log(directories);
+})
+
+owfs.dirall("/",function(err, directories){
+    console.log(directories);
+})
+
+owfs.get("/",function(err, directories){
+    console.log(directories);
+})
+
+owfs.dirallslash("/",function(err, directories){
+    console.log(directories);
+})
+
+owfs.getslash("/",function(err, directories){
+    console.log(directories);
+})
+owfs.dir('/', function(directories){
+   console.log(directories);
+});
+
 var globalRes;
 
 var newDrivesAvaliable = function () {
@@ -111,6 +144,11 @@ var defineRoutes = function (app) {
  */
 module.exports = function (app) {
     app.get('/', function (req, res) {
+
+
+        return;
+
+
         res.render('boot', {
             partials: {
                 header: 'layouts/header',
